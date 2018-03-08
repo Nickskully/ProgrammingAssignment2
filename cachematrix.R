@@ -3,31 +3,28 @@
 
 ## functions that cache a inverse matrix
 
+
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
-  set <- function(y) {
+  inv <- NULL
+  set <- function(y){
     x <<- y
-    m <<- NULL
+    inv <<- NULL
   }
   get <- function() x
-  setmean <- function(mean) m <<- mean
-  getmean <- function() m
-  list(set = set, get = get,
-       setmean = setmean,
-       getmean = getmean)
+  setInverse <- function(solveMatrix) inv <<- solveMatrix
+  getInverse <- function() inv
+  list(set = set, get = get, setmatrix = setmatrix, getmatrix = getmatrix)
 }
 
-
-## this function computes 1/x of a matrix x
-
+## this function computes 1/x of a matrix
 cacheSolve <- function(x, ...) {
-  m <- x$getmean()
-  if(!is.null(m)) {
-    message("getting cached data")
-    return(m)
+inv <- x$getInverse()
+if(!is.null(inv)){
+  message("getting cached data")
+  return(inv)
   }
-  data <- x$get()
-  m <- solve(data)
-  x$setmean(m)
-  m 
+data <- x$get()
+inv <- solve(data)
+x$setInverse(inv)
+inv      
 }
